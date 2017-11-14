@@ -6,11 +6,13 @@ import android.os.Bundle
 // Not this Fragment
 //import android.support.v4.app.Fragment
 import  android.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.SimpleAdapter
 
 import com.tho.nigirimoe.R
 import com.tho.nigirimoe.model.Table
@@ -24,7 +26,7 @@ class TableListFragment : Fragment() {
 
     lateinit var root: View
     private var onTableSelectedListener: OnTableSelectedListener? = null
-    private var _data = ArrayList<HashMap<String, Any>>()
+    private var _tableListData = ArrayList<HashMap<String, Any>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,12 @@ class TableListFragment : Fragment() {
         if (inflater != null) {
             root = inflater.inflate(R.layout.fragment_table_list, container, false)
             val list = root.findViewById<ListView>(R.id.table_list)
-            val adapter = ArrayAdapter<Table>(activity, android.R.layout.simple_list_item_1, Tables.toArray())
+            refreshTableListData()
+            val adapter = SimpleAdapter(activity,
+                    _tableListData,
+                    android.R.layout.simple_list_item_2,
+                    arrayOf("name","orders"),
+                    intArrayOf(android.R.id.text1, android.R.id.text2))
             list.adapter = adapter
 
             // Pulsación del item de la lista
@@ -68,6 +75,18 @@ class TableListFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         onTableSelectedListener = null
+    }
+
+    fun refreshTableListData() {
+        _tableListData.clear()
+
+        for (table in 0..Tables.count - 1){
+            Log.v("TAG", "tableItem: ${table}")
+            val tableDataItem = HashMap<String, Any>()
+            tableDataItem.put("name", "${Tables[table].name}")
+            tableDataItem.put("orders", resources.getString(R.string.orders, Tables[table].orders.size ?: 0))
+            _tableListData.add(tableDataItem)
+        }
     }
 
     interface OnTableSelectedListener {
