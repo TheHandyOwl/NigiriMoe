@@ -1,5 +1,5 @@
 package com.tho.nigirimoe.model
 
-object Menu {
+object MenuList {
     val courses: MutableList<Course> = mutableListOf()
 }
