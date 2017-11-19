@@ -28,6 +28,7 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
 
     override fun onTableSelected(table: Table, position: Int) {
         Log.v("LOG", "Se ha pulsado la posición: ${position}")
+        startActivity(TableActivity.intent(this, position))
     }
 
 }
