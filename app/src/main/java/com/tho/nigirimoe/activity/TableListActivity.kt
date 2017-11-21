@@ -94,7 +94,7 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
             Thread.sleep(1000)
 
             // Descarga del menú
-            val url = URL("http://www.mocky.io/v2/5a11de582c00007201ace4ce")
+            val url = URL("http://www.mocky.io/v2/5a123cee2c0000eb07ace508")
             val jsonString = Scanner(url.openStream(), "UTF-8").useDelimiter("\\A").next()
 
             // Analizamos los datos descargados

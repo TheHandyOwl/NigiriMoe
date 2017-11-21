@@ -79,9 +79,9 @@ class TableActivity : AppCompatActivity() {
     }
 
     private fun setupNewOrderButton() {
-        new_order_btn.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        new_order_btn.setOnClickListener { _ ->
+            //startActivity(TableActivity.intent(this, position))
+            startActivity(MenuActivity.intent(this, tableIndex))
         }
     }
 
