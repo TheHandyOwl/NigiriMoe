@@ -1,10 +1,9 @@
 package com.tho.nigirimoe.activity
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.app.AlertDialog
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import com.tho.nigirimoe.R
 import com.tho.nigirimoe.fragment.TableListFragment

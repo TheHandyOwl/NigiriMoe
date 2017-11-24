@@ -10,4 +10,8 @@
     <string name="course_image_description">Imagen del plato</string>
     <string name="course_name">Nombre del plato</string>
     <string name="course_price">5.00</string>
+    <string name="edit_course_observations">Observaciones</string>
+    <string name="edit_course_observations_text">Sin observaciones</string>
+    <string name="edti_course_name">Nombre del plato</string>
+    <string name="edit_course_image_description">Imagen del plato elegido</string>
 </resources>

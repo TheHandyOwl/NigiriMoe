@@ -12,9 +12,9 @@ import android.view.MenuItem
 import com.tho.nigirimoe.R
 import com.tho.nigirimoe.adapter.MenuRecyclerViewAdapter
 import com.tho.nigirimoe.model.Course
+import com.tho.nigirimoe.model.Order
 import com.tho.nigirimoe.model.Table
 import com.tho.nigirimoe.model.Tables
-import kotlinx.android.synthetic.main.activity_table.*
 
 class MenuActivity : AppCompatActivity() {
 
@@ -64,14 +64,20 @@ class MenuActivity : AppCompatActivity() {
         val adapter = MenuRecyclerViewAdapter()
         adapter.onClickListener = object : MenuRecyclerViewAdapter.OnMenuSelectedListener {
             override fun onMenuSelected(course: Course) {
-                sendCourseToParentActivity(course)
+                sendCourseToEditCourseActivity(course)
             }
         }
         list.adapter = adapter
     }
 
-    private fun sendCourseToParentActivity(course: Course) {
+    private fun sendCourseToEditCourseActivity(course: Course) {
         Log.v("TAG","Devolvemos ${course.name}")
+        val intent = Intent(this, EditCourseActivity::class.java)
+        intent.putExtra(EditCourseActivity.EXTRA_TABLE_ITEM, tableIndex)
+        intent.putExtra(EditCourseActivity.EXTRA_ORDER_ITEM, Order(course, ""))
+        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT) // Nos saltaremos el menú a la vuelta
+        startActivity(intent)
+        finish()
     }
 
 }
