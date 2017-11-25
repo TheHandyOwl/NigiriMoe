@@ -6,7 +6,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_table">TableActivity</string>
     <string name="title_activity_menu">MenuActivity</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_cash_register">Caja registradora</string>
+    <string name="action_delete_orders">Limpiar pedidos</string>
     <string name="course_image_description">Imagen del plato</string>
     <string name="course_name">Nombre del plato</string>
     <string name="course_price">5.00</string>
