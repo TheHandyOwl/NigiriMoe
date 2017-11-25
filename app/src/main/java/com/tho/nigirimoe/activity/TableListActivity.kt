@@ -1,10 +1,9 @@
 package com.tho.nigirimoe.activity
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.app.AlertDialog
-import android.util.Log
-import android.view.Menu
+import android.content.Intent
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.tho.nigirimoe.R
 import com.tho.nigirimoe.fragment.TableListFragment
@@ -25,6 +24,10 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
     enum class VIEW_INDEX(val index: Int) {
         LOADING(0),
         TABLES(1)
+    }
+
+    companion object {
+        val REQ_TABLE_LIST = 11
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +56,6 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
 
     private fun loadMenu() {
         if (MenuList.courses.size == 0) {
-            Log.v("TAG", "CARGAR EL MENU")
             view_switcher.displayedChild = VIEW_INDEX.LOADING.index
 
             val activity = this
@@ -83,7 +85,6 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
             }
 
         } else {
-            Log.v("TAG", "MENU CARGADO")
             view_switcher.displayedChild = VIEW_INDEX.TABLES.index
         }
     }
@@ -94,7 +95,7 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
             Thread.sleep(1000)
 
             // Descarga del menú
-            val url = URL("http://www.mocky.io/v2/5a11de582c00007201ace4ce")
+            val url = URL("http://www.mocky.io/v2/5a123cee2c0000eb07ace508")
             val jsonString = Scanner(url.openStream(), "UTF-8").useDelimiter("\\A").next()
 
             // Analizamos los datos descargados
@@ -125,8 +126,18 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
     }
 
     override fun onTableSelected(table: Table, position: Int) {
-        Log.v("LOG", "Se ha pulsado la posición: ${position}")
-        startActivity(TableActivity.intent(this, position))
+        startActivityForResult(TableActivity.intent(this, position), REQ_TABLE_LIST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            REQ_TABLE_LIST -> {
+                val fragmentTableList = fragmentManager.findFragmentById(R.id.fragment_table_list) as? TableListFragment
+                fragmentTableList?.showTableListDataChanged()
+            }
+        }
     }
 
 }
