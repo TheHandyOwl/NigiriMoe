@@ -4,8 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
@@ -34,6 +37,7 @@ class TableActivity : AppCompatActivity() {
     private val tableIndex: Int by lazy { intent.getIntExtra(EXTRA_TABLE_ITEM, 0) }
     private val table: Table by lazy { Tables[intent.getIntExtra(EXTRA_TABLE_ITEM, 0)] }
 
+    lateinit var root: View
     private lateinit var adapter: ArrayAdapter<Order>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,13 +106,31 @@ class TableActivity : AppCompatActivity() {
             Activity.RESULT_OK -> when (requestCode) {
                 REQ_MENU_AND_ORDER -> {
                     if (data != null) {
-                        val order = data.getSerializableExtra(EditCourseActivity.EXTRA_ORDER_ITEM) as? Order
-                        if (order != null) {
-                            table.orders.add(order)
+                        val newOrder = data.getSerializableExtra(EditCourseActivity.EXTRA_ORDER_ITEM) as? Order
+                        if (newOrder != null) {
+                            table.orders.add(newOrder)
                             adapter.notifyDataSetChanged()
                             Toast.makeText(this, "Añadimos pedido nuevo", Toast.LENGTH_LONG).show()
                         }
                     }
+
+                    // DESHACER NO DESHACE
+                    /*
+                    if (data != null) {
+                        val newOrder = data.getSerializableExtra(EditCourseActivity.EXTRA_ORDER_ITEM) as? Order
+                        if (newOrder != null) {
+                            val olderOrders = table.orders
+                            table.orders.add(newOrder)
+                            adapter.notifyDataSetChanged()
+                            Snackbar.make(findViewById(R.id.orders_list), "Añadimos pedido nuevo", Snackbar.LENGTH_LONG)
+                                    .setAction("Deshacer") {
+                                        table.orders = olderOrders
+                                        adapter.notifyDataSetChanged()
+                                    }
+                                    .show()
+                         }
+                     }
+                    */
                 }
                 REQ_EDIT_ORDER -> {
                     if (data != null) {
