@@ -139,5 +139,4 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
             }
         }
     }
-
 }

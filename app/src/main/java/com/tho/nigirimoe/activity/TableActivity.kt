@@ -1,19 +1,19 @@
 package com.tho.nigirimoe.activity
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
 import com.tho.nigirimoe.R
-import com.tho.nigirimoe.model.MenuList
 import com.tho.nigirimoe.model.Order
 import com.tho.nigirimoe.model.Table
 import com.tho.nigirimoe.model.Tables
@@ -44,12 +44,25 @@ class TableActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_table)
 
-        //addFakeData()
-
         setupActionBar()
         setupOrdersList()
         setupNewOrderButton()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_cash_register, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val menuCaja = menu?.findItem(R.id.action_cash_register)
+        menuCaja?.setEnabled( table.orders.size > 0 )
+
+        val menuBorrarPedidos = menu?.findItem(R.id.action_delete_orders)
+        menuBorrarPedidos?.setEnabled( table.orders.size > 0 )
+
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -60,17 +73,34 @@ class TableActivity : AppCompatActivity() {
                 finish()
                 return true
             }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    // Para probar con datos inventados
-    fun addFakeData() {
-        if(MenuList.courses.size > 0) {
-            for (item in 1..tableIndex+1) {
-                table.orders.add(Order(MenuList.courses[0], "Sin observaciones"))
+            R.id.action_cash_register -> {
+                var totalPrice: Float = 0.toFloat()
+                for (order in table.orders) {
+                    totalPrice += order.course.price
+                }
+                AlertDialog.Builder(this)
+                        .setTitle("Caja registradora")
+                        .setMessage("A cobrar ${totalPrice}")
+                        .setPositiveButton("Aceptar", { dialog, _ ->
+                            dialog.dismiss()
+                        })
+                        .show()
+            }
+            R.id.action_delete_orders -> {
+                AlertDialog.Builder(this)
+                        .setTitle("Borrar pedidos")
+                        .setMessage("Todos los pedidos de esta mesa serán eliminados")
+                        .setPositiveButton("Aceptar", { dialog, _ ->
+                            dialog.dismiss()
+                            deleteOrders()
+                        })
+                        .setNegativeButton("Cancelar", { dialog, _ ->
+                            dialog.dismiss()
+                        })
+                        .show()
             }
         }
+        return super.onOptionsItemSelected(item)
     }
 
     fun setupActionBar() {
@@ -110,7 +140,7 @@ class TableActivity : AppCompatActivity() {
                         if (newOrder != null) {
                             table.orders.add(newOrder)
                             adapter.notifyDataSetChanged()
-                            Toast.makeText(this, "Añadimos pedido nuevo", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "Añadimos ${newOrder.course.name}", Toast.LENGTH_LONG).show()
                         }
                     }
 
@@ -148,5 +178,11 @@ class TableActivity : AppCompatActivity() {
             }
             Activity.RESULT_CANCELED -> Toast.makeText(this, "Se ha cancelado el pedido", Toast.LENGTH_LONG).show()
         }
+    }
+
+    fun deleteOrders() {
+        table.orders.clear()
+        adapter.notifyDataSetInvalidated()
+        adapter.notifyDataSetChanged()
     }
 }
