@@ -5,15 +5,12 @@ import android.content.Context
 import android.os.Bundle
 // Not this Fragment
 //import android.support.v4.app.Fragment
-import  android.app.Fragment
-import android.util.Log
+import android.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SimpleAdapter
-
 import com.tho.nigirimoe.R
 import com.tho.nigirimoe.model.Table
 import com.tho.nigirimoe.model.Tables
@@ -28,6 +25,8 @@ class TableListFragment : Fragment() {
     private var onTableSelectedListener: OnTableSelectedListener? = null
     private var _tableListData = ArrayList<HashMap<String, Any>>()
 
+    private lateinit var adapter: SimpleAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -38,7 +37,7 @@ class TableListFragment : Fragment() {
             root = inflater.inflate(R.layout.fragment_table_list, container, false)
             val list = root.findViewById<ListView>(R.id.table_list)
             refreshTableListData()
-            val adapter = SimpleAdapter(activity,
+            adapter = SimpleAdapter(activity,
                     _tableListData,
                     android.R.layout.simple_list_item_2,
                     arrayOf("name","orders"),
@@ -77,13 +76,18 @@ class TableListFragment : Fragment() {
         onTableSelectedListener = null
     }
 
+    fun showTableListDataChanged() {
+        // Aquí se refrescan los cambios en el TableList
+        refreshTableListData()
+        adapter.notifyDataSetInvalidated()
+    }
+
     fun refreshTableListData() {
         _tableListData.clear()
 
         for (table in 0..Tables.count - 1){
-            Log.v("TAG", "tableItem: ${table}")
             val tableDataItem = HashMap<String, Any>()
-            tableDataItem.put("name", "${Tables[table].name}")
+            tableDataItem.put("name", Tables[table].name)
             tableDataItem.put("orders", resources.getString(R.string.orders, Tables[table].orders.size ?: 0))
             _tableListData.add(tableDataItem)
         }

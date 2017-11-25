@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.tho.nigirimoe.R
-import com.tho.nigirimoe.model.Course
 import com.tho.nigirimoe.model.Order
 import com.tho.nigirimoe.model.Table
 import com.tho.nigirimoe.model.Tables
@@ -44,11 +42,6 @@ class EditCourseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_course)
-
-
-        Log.v("TAG", "Item: ${EXTRA_TABLE_ITEM}, mesa: ${table} y plato: ${EXTRA_ORDER_ITEM}")
-        Log.v("TAG", "Pedido: ${order}")
-
 
         // Accedemos al contexto
         val context = this

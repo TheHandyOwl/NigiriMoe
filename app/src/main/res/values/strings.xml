@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NigiriMoe</string>
 
-    <string name="orders">Pedidos: %1$d</string>
+    <string name="orders">Pedidos: %d</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_table">TableActivity</string>
