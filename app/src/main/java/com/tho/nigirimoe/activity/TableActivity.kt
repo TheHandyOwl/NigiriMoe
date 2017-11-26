@@ -12,7 +12,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.Toast
 import com.tho.nigirimoe.R
 import com.tho.nigirimoe.model.Order
 import com.tho.nigirimoe.model.Table
@@ -38,6 +37,7 @@ class TableActivity : AppCompatActivity() {
     private val table: Table by lazy { Tables[intent.getIntExtra(EXTRA_TABLE_ITEM, 0)] }
 
     lateinit var root: View
+    private val list by lazy { findViewById<ListView>(R.id.orders_list) }
     private lateinit var adapter: ArrayAdapter<Order>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,9 +110,7 @@ class TableActivity : AppCompatActivity() {
     }
 
     private fun setupOrdersList() {
-        val list = findViewById<ListView>(R.id.orders_list)
-        adapter = ArrayAdapter<Order>(this,android.R.layout.simple_list_item_1, Tables[tableIndex].orders)
-        list.adapter = adapter
+        refreshOrdersList()
 
         list.setOnItemClickListener { _, _, position, _ ->
             val intent = Intent(this, EditCourseActivity::class.java)
@@ -138,29 +136,17 @@ class TableActivity : AppCompatActivity() {
                     if (data != null) {
                         val newOrder = data.getSerializableExtra(EditCourseActivity.EXTRA_ORDER_ITEM) as? Order
                         if (newOrder != null) {
-                            table.orders.add(newOrder)
-                            adapter.notifyDataSetChanged()
-                            Toast.makeText(this, "Añadimos ${newOrder.course.name}", Toast.LENGTH_LONG).show()
-                        }
-                    }
-
-                    // DESHACER NO DESHACE
-                    /*
-                    if (data != null) {
-                        val newOrder = data.getSerializableExtra(EditCourseActivity.EXTRA_ORDER_ITEM) as? Order
-                        if (newOrder != null) {
-                            val olderOrders = table.orders
+                            val olderOrders = table.orders.toMutableList()
                             table.orders.add(newOrder)
                             adapter.notifyDataSetChanged()
                             Snackbar.make(findViewById(R.id.orders_list), "Añadimos pedido nuevo", Snackbar.LENGTH_LONG)
-                                    .setAction("Deshacer") {
+                                    .setAction("Deshacer añadir pedido") {
                                         table.orders = olderOrders
-                                        adapter.notifyDataSetChanged()
+                                        refreshOrdersList()
                                     }
                                     .show()
                          }
                      }
-                    */
                 }
                 REQ_EDIT_ORDER -> {
                     if (data != null) {
@@ -168,21 +154,40 @@ class TableActivity : AppCompatActivity() {
                         val orderIndex = data.getSerializableExtra(EditCourseActivity.EXTRA_ORDER_ITEM_INDEX) as? Int
                         if (orderIndex != null) {
                             if (table.orders[orderIndex].observations != order?.observations) {
+                                val olderOrder = table.orders[orderIndex].observations
                                 table.orders[orderIndex].observations = order?.observations ?: ""
                                 adapter.notifyDataSetChanged()
-                                Toast.makeText(this, "Modificamos observaciones del pedido", Toast.LENGTH_LONG).show()
+                                Snackbar.make(findViewById(R.id.orders_list), "Modificamos observaciones del pedido", Snackbar.LENGTH_LONG)
+                                        .setAction("Deshacer modificar observaciones") {
+                                            table.orders[orderIndex].observations = olderOrder
+                                            refreshOrdersList()
+                                        }
+                                        .show()
                             }
                         }
                     }
                 }
             }
-            Activity.RESULT_CANCELED -> Toast.makeText(this, "Se ha cancelado el pedido", Toast.LENGTH_LONG).show()
+            Activity.RESULT_CANCELED -> when (requestCode) {
+                REQ_MENU_AND_ORDER -> Snackbar.make(findViewById(R.id.orders_list),
+                        "Se ha cancelado el pedido",
+                        Snackbar.LENGTH_LONG).show()
+                REQ_EDIT_ORDER -> Snackbar.make(findViewById(R.id.orders_list),
+                        "Se han cancelado las observaciones",
+                        Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 
     fun deleteOrders() {
         table.orders.clear()
-        adapter.notifyDataSetInvalidated()
-        adapter.notifyDataSetChanged()
+        refreshOrdersList()
+    }
+
+    fun refreshOrdersList() {
+        //adapter.notifyDataSetInvalidated()
+        //adapter.notifyDataSetChanged()
+        adapter = ArrayAdapter<Order>(this,android.R.layout.simple_list_item_1, table.orders)
+        list.adapter = adapter
     }
 }
