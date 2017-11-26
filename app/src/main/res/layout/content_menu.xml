@@ -16,39 +16,159 @@
 
         <ImageView
             android:id="@+id/course_image"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/course_image_description"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
 
         <TextView
             android:id="@+id/course_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/course_price"
-            app:layout_constraintStart_toEndOf="@+id/course_image"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="@+id/course_image"
             tools:text="@string/course_name" />
+
+        <ImageView
+            android:id="@+id/a_001_sulfide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/allergen_sulfide"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/course_name"
+            app:layout_constraintTop_toBottomOf="@+id/course_name"
+            app:srcCompat="@drawable/a_001_sulfide"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/a_002_egg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/allergen_egg"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/a_001_sulfide"
+            app:layout_constraintTop_toTopOf="@+id/a_001_sulfide"
+            app:srcCompat="@drawable/a_002_egg"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/a_005_milk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/allergen_milk"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/a_002_egg"
+            app:layout_constraintTop_toTopOf="@+id/a_002_egg"
+            app:srcCompat="@drawable/a_005_milk"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/a_006_crustaceans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/allergen_crustaceans"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/a_005_milk"
+            app:layout_constraintTop_toTopOf="@+id/a_005_milk"
+            app:srcCompat="@drawable/a_006_crustaceans"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/a_007_fish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/allergen_fish"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/a_006_crustaceans"
+            app:layout_constraintTop_toTopOf="@+id/a_006_crustaceans"
+            app:srcCompat="@drawable/a_007_fish"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/a_010_gluten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/allergen_gluten"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/a_007_fish"
+            app:layout_constraintTop_toTopOf="@+id/a_007_fish"
+            app:srcCompat="@drawable/a_010_gluten"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/a_012_soybean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/allergen_soybean"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/a_010_gluten"
+            app:layout_constraintTop_toTopOf="@+id/a_010_gluten"
+            app:srcCompat="@drawable/a_012_soybean"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/a_013_peanut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/allergen_peanut"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/a_012_soybean"
+            app:layout_constraintTop_toTopOf="@+id/a_012_soybean"
+            app:srcCompat="@drawable/a_013_peanut"
+            tools:visibility="visible" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".85" />
 
         <TextView
             android:id="@+id/course_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/course_name"
-            app:layout_constraintTop_toTopOf="@+id/course_name"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/course_price" />
+
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
 
