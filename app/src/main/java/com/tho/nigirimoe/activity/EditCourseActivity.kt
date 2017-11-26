@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.tho.nigirimoe.R
 import com.tho.nigirimoe.model.Order
 import com.tho.nigirimoe.model.Table
@@ -34,7 +35,6 @@ class EditCourseActivity : AppCompatActivity() {
         }
     }
 
-    private val tableIndex: Int by lazy { intent.getIntExtra(EXTRA_TABLE_ITEM, 0) }
     private val orderIndex: Int by lazy { intent.getIntExtra(EXTRA_ORDER_ITEM_INDEX, 0) }
     private val table: Table by lazy { Tables[intent.getIntExtra(EXTRA_TABLE_ITEM, 0)] }
     private val order: Order by lazy { intent.getSerializableExtra(EXTRA_ORDER_ITEM) as Order }
@@ -49,6 +49,19 @@ class EditCourseActivity : AppCompatActivity() {
         edit_course_image.setImageResource(context.resources.getIdentifier(order.course.image.substring(0,order.course.image.length-4),"drawable","com.tho.nigirimoe"))
         edit_course_name.text = order.course.name
         edit_course_observations_text.setText(order.observations)
+
+        for (allergen in order.course.allergens) {
+            when (allergen) {
+                "a_001_sulfide" -> a_001_sulfide.visibility = View.VISIBLE
+                "a_002_egg" -> a_002_egg.visibility = View.VISIBLE
+                "a_005_milk" -> a_005_milk.visibility = View.VISIBLE
+                "a_006_crustaceans" -> a_006_crustaceans.visibility = View.VISIBLE
+                "a_007_fish" -> a_007_fish.visibility = View.VISIBLE
+                "a_010_gluten" -> a_010_gluten.visibility = View.VISIBLE
+                "a_012_soybean" -> a_012_soybean.visibility = View.VISIBLE
+                "a_013_peanut" -> a_013_peanut.visibility = View.VISIBLE
+            }
+        }
 
         setupActionBar()
         setupListeners()

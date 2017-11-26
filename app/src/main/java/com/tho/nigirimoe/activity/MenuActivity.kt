@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.MenuItem
 import com.tho.nigirimoe.R
 import com.tho.nigirimoe.adapter.MenuRecyclerViewAdapter
@@ -71,7 +70,6 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun sendCourseToEditCourseActivity(course: Course) {
-        Log.v("TAG","Devolvemos ${course.name}")
         val intent = Intent(this, EditCourseActivity::class.java)
         intent.putExtra(EditCourseActivity.EXTRA_TABLE_ITEM, tableIndex)
         intent.putExtra(EditCourseActivity.EXTRA_ORDER_ITEM, Order(course, ""))

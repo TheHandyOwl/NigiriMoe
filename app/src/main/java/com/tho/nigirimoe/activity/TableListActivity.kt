@@ -10,6 +10,7 @@ import com.tho.nigirimoe.fragment.TableListFragment
 import com.tho.nigirimoe.model.Course
 import com.tho.nigirimoe.model.MenuList
 import com.tho.nigirimoe.model.Table
+import com.tho.nigirimoe.utils.toListArray
 import kotlinx.android.synthetic.main.activity_table_list.*
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
@@ -95,7 +96,7 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
             Thread.sleep(1000)
 
             // Descarga del menú
-            val url = URL("http://www.mocky.io/v2/5a123cee2c0000eb07ace508")
+            val url = URL("http://www.mocky.io/v2/5a19fe153100006905d91eae")
             val jsonString = Scanner(url.openStream(), "UTF-8").useDelimiter("\\A").next()
 
             // Analizamos los datos descargados
@@ -111,9 +112,9 @@ class TableListActivity : AppCompatActivity(), TableListFragment.OnTableSelected
                 val name = item.getString("name")
                 val price = item.getString("price").toFloat()
                 val image = item.getString("image")
-                val description = "Some information about ${item.getString("name")}"
+                var allergens = item.getJSONArray("allergens")
 
-                menuItems.add(Course(name, price, image, description))
+                menuItems.add(Course(name, price, image, allergens.toListArray()))
             }
 
             return menuItems
