@@ -40,7 +40,7 @@ class TableListFragment : Fragment() {
             adapter = SimpleAdapter(activity,
                     _tableListData,
                     android.R.layout.simple_list_item_2,
-                    arrayOf("name","orders"),
+                    arrayOf("name", "orders"),
                     intArrayOf(android.R.id.text1, android.R.id.text2))
             list.adapter = adapter
 
@@ -85,9 +85,9 @@ class TableListFragment : Fragment() {
     fun refreshTableListData() {
         _tableListData.clear()
 
-        for (table in 0..Tables.count - 1){
+        for (table in 0..Tables.count - 1) {
             val tableDataItem = HashMap<String, Any>()
-            tableDataItem.put("name", Tables[table].name)
+            tableDataItem.put("name", "${Tables[table].name}")
             tableDataItem.put("orders", resources.getString(R.string.orders, Tables[table].orders.size ?: 0))
             _tableListData.add(tableDataItem)
         }
