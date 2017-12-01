@@ -8,7 +8,12 @@ object Tables {
             Table("Mesa04"),
             Table("Mesa05"),
             Table("Mesa06"),
-            Table("Mesa07")
+            Table("Mesa07"),
+            Table("Mesa08"),
+            Table("Mesa09"),
+            Table("Mesa10"),
+            Table("Mesa11"),
+            Table("Mesa12")
     )
 
     val count
