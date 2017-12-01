@@ -120,6 +120,11 @@ class TableListActivity : AppCompatActivity(),
                         .setMessage("Todos los pedidos de esta mesa serán eliminados")
                         .setPositiveButton("Aceptar", { dialog, _ ->
                             dialog.dismiss()
+
+                            // Save orders to undone
+                            val table = Tables[tableIndex]
+                            val olderOrders = table.orders.toMutableList()
+
                             // Delete orders: portrait
                             val ordersInTableFragment = fragmentManager.findFragmentById(R.id.fragment_table_list) as? OrdersListFragment
                             ordersInTableFragment?.deleteOrders()
@@ -128,6 +133,17 @@ class TableListActivity : AppCompatActivity(),
                             ordersFragment?.deleteOrders()
                             val tableFragment = fragmentManager.findFragmentById(R.id.fragment_table_list) as? TableListFragment
                             tableFragment?.showTableListDataChanged()
+
+                            // Wanna undo?
+                            val fragmentView = findViewById<View>(R.id.fragment_table_list)
+                            Snackbar.make(fragmentView, "Oooops!", Snackbar.LENGTH_LONG)
+                                    .setAction("Estás a tiempo de recuperar los pedidos") {
+                                        table.orders = olderOrders
+                                        ordersInTableFragment?.refreshOrdersList()
+                                        ordersFragment?.showOrdersListDataChanged()
+                                        tableFragment?.showTableListDataChanged()
+                                    }
+                                    .show()
                         })
                         .setNegativeButton("Cancelar", { dialog, _ ->
                             dialog.dismiss()
@@ -259,8 +275,8 @@ class TableListActivity : AppCompatActivity(),
                         val tableIndex = data.getSerializableExtra(EditCourseActivity.EXTRA_TABLE_ITEM) as? Int
                         val newOrder = data.getSerializableExtra(EditCourseActivity.EXTRA_ORDER_ITEM) as? Order
                         if (newOrder != null && tableIndex != null ) {
-                            val olderOrders = Tables[tableIndex].orders.toMutableList()
                             val table = Tables[tableIndex]
+                            val olderOrders = table.orders.toMutableList()
                             table.orders.add(newOrder)
 
                             // Refresh table list: orders in portrait
