@@ -35,9 +35,10 @@ class EditCourseActivity : AppCompatActivity() {
         }
     }
 
+    private val order: Order by lazy { intent.getSerializableExtra(EXTRA_ORDER_ITEM) as Order }
     private val orderIndex: Int by lazy { intent.getIntExtra(EXTRA_ORDER_ITEM_INDEX, 0) }
     private val table: Table by lazy { Tables[intent.getIntExtra(EXTRA_TABLE_ITEM, 0)] }
-    private val order: Order by lazy { intent.getSerializableExtra(EXTRA_ORDER_ITEM) as Order }
+    private val tableIndex: Int by lazy { intent.getIntExtra(EXTRA_TABLE_ITEM, 0) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +83,7 @@ class EditCourseActivity : AppCompatActivity() {
             val order = Order(order.course, edit_course_observations_text.text.toString())
 
             val intent = Intent()
+            intent.putExtra(EXTRA_TABLE_ITEM, tableIndex)
             intent.putExtra(EXTRA_ORDER_ITEM, order)
             intent.putExtra(EXTRA_ORDER_ITEM_INDEX, orderIndex)
             setResult(Activity.RESULT_OK, intent)

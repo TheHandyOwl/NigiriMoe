@@ -12,7 +12,6 @@ import com.tho.nigirimoe.R
 import com.tho.nigirimoe.adapter.MenuRecyclerViewAdapter
 import com.tho.nigirimoe.model.Course
 import com.tho.nigirimoe.model.Order
-import com.tho.nigirimoe.model.Table
 import com.tho.nigirimoe.model.Tables
 
 class MenuActivity : AppCompatActivity() {
@@ -28,8 +27,7 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
-    private val tableIndex: Int by lazy { intent.getIntExtra(TableActivity.EXTRA_TABLE_ITEM, 0) }
-    private val table: Table by lazy { Tables[intent.getIntExtra(TableActivity.EXTRA_TABLE_ITEM, 0)] }
+    private val tableIndex: Int by lazy { intent.getIntExtra(EXTRA_TABLE_ITEM, 0) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +50,7 @@ class MenuActivity : AppCompatActivity() {
 
     fun setupActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Elegir platos para mesa ${Tables[tableIndex]}"
+        supportActionBar?.title = "Elegir platos - ${Tables[tableIndex].name}"
     }
 
     fun setupMenuRecycleView() {
@@ -70,9 +68,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun sendCourseToEditCourseActivity(course: Course) {
-        val intent = Intent(this, EditCourseActivity::class.java)
-        intent.putExtra(EditCourseActivity.EXTRA_TABLE_ITEM, tableIndex)
-        intent.putExtra(EditCourseActivity.EXTRA_ORDER_ITEM, Order(course, ""))
+        val intent = EditCourseActivity.intentNewOrder(this, tableIndex, Order(course, ""))
         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT) // Nos saltaremos el menú a la vuelta
         startActivity(intent)
         finish()
