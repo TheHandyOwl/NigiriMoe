@@ -254,7 +254,7 @@ class TableListActivity : AppCompatActivity(),
         }
 
         // Title
-        supportActionBar?.title = "${R.string.app_name} - ${Tables[position].name}"
+        supportActionBar?.title = "${getString(R.string.app_name)} - ${Tables[position].name}"
     }
 
     override fun onOrderSelected(tableIndex: Int, order: Order, position: Int) {
