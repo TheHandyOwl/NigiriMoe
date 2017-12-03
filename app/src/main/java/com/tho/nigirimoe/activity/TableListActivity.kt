@@ -41,6 +41,7 @@ class TableListActivity : AppCompatActivity(),
     }
 
     private var tableIndex: Int = 0
+    private val TAG = "TAG"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +57,7 @@ class TableListActivity : AppCompatActivity(),
         try {
             fragmentManager.popBackStack("OrdersReplacesTables", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         } catch (e: Exception) {
-            Log.v("TAG", "There was an error with popBackStack: ${e}")
+            Log.v(TAG, "There was an error with popBackStack: ${e}")
         }
 
         // Comprobamos el layout table
@@ -107,18 +108,18 @@ class TableListActivity : AppCompatActivity(),
                     totalPrice += order.course.price
                 }
                 AlertDialog.Builder(this)
-                        .setTitle("Caja registradora")
-                        .setMessage("A cobrar ${totalPrice}")
-                        .setPositiveButton("Aceptar", { dialog, _ ->
+                        .setTitle(getString(R.string.cash_register))
+                        .setMessage(getString(R.string.to_pay,totalPrice))
+                        .setPositiveButton(getString(R.string.ok), { dialog, _ ->
                             dialog.dismiss()
                         })
                         .show()
             }
             R.id.action_delete_orders -> {
                 AlertDialog.Builder(this)
-                        .setTitle("Borrar pedidos")
-                        .setMessage("Todos los pedidos de esta mesa serán eliminados")
-                        .setPositiveButton("Aceptar", { dialog, _ ->
+                        .setTitle(getString(R.string.delete_orders))
+                        .setMessage(getString(R.string.all_orders_will_be_deleted))
+                        .setPositiveButton(getString(R.string.ok), { dialog, _ ->
                             dialog.dismiss()
 
                             // Save orders to undone
@@ -136,8 +137,8 @@ class TableListActivity : AppCompatActivity(),
 
                             // Wanna undo?
                             val fragmentView = findViewById<View>(R.id.fragment_table_list)
-                            Snackbar.make(fragmentView, "Oooops!", Snackbar.LENGTH_LONG)
-                                    .setAction("Estás a tiempo de recuperar los pedidos") {
+                            Snackbar.make(fragmentView, getString(R.string.Oooops), Snackbar.LENGTH_LONG)
+                                    .setAction(getString(R.string.recover_orders)) {
                                         table.orders = olderOrders
                                         ordersInTableFragment?.refreshOrdersList()
                                         ordersFragment?.showOrdersListDataChanged()
@@ -145,7 +146,7 @@ class TableListActivity : AppCompatActivity(),
                                     }
                                     .show()
                         })
-                        .setNegativeButton("Cancelar", { dialog, _ ->
+                        .setNegativeButton(getString(R.string.cancel), { dialog, _ ->
                             dialog.dismiss()
                         })
                         .show()
@@ -160,7 +161,7 @@ class TableListActivity : AppCompatActivity(),
     }
 
     fun setupActionBar() {
-        supportActionBar?.title = "Nigiri Moe"
+        supportActionBar?.title = getString(R.string.app_name)
     }
 
     private fun loadMenu() {
@@ -182,13 +183,13 @@ class TableListActivity : AppCompatActivity(),
                     MenuList.courses += downloadedMenuList
                 } else {
                     AlertDialog.Builder(activity)
-                            .setTitle("Error en la descarga")
-                            .setMessage("No se puede descargar el menú")
-                            .setPositiveButton("Reintentar", { dialog, _ ->
+                            .setTitle(getString(R.string.downloading_error))
+                            .setMessage(getString(R.string.unable_download_menu))
+                            .setPositiveButton(getString(R.string.retry), { dialog, _ ->
                                 dialog.dismiss()
                                 loadMenu()
                             })
-                            .setNegativeButton("Salir", { _, _ -> activity.finish() })
+                            .setNegativeButton(getString(R.string.exit), { _, _ -> activity.finish() })
                             .show()
                 }
             }
@@ -253,7 +254,7 @@ class TableListActivity : AppCompatActivity(),
         }
 
         // Title
-        supportActionBar?.title = "Nigiri Moe - ${Tables[position].name}"
+        supportActionBar?.title = "${R.string.app_name} - ${Tables[position].name}"
     }
 
     override fun onOrderSelected(tableIndex: Int, order: Order, position: Int) {
@@ -290,8 +291,8 @@ class TableListActivity : AppCompatActivity(),
 
                             // Wanna undo?
                             val fragmentView = findViewById<View>(R.id.fragment_table_list)
-                            Snackbar.make(fragmentView, "Añadimos pedido nuevo", Snackbar.LENGTH_LONG)
-                                    .setAction("Deshacer añadir pedido") {
+                            Snackbar.make(fragmentView, getString(R.string.add_order), Snackbar.LENGTH_LONG)
+                                    .setAction(getString(R.string.undo_add_order)) {
                                         table.orders = olderOrders
                                         ordersInTableFragment?.refreshOrdersList()
                                         ordersFragment?.showOrdersListDataChanged()
@@ -323,8 +324,8 @@ class TableListActivity : AppCompatActivity(),
 
                                 // Wanna undo?
                                 val fragmentView = findViewById<View>(R.id.fragment_table_list)
-                                Snackbar.make(fragmentView, "Modificamos observaciones del pedido", Snackbar.LENGTH_LONG)
-                                        .setAction("Deshacer modificar observaciones") {
+                                Snackbar.make(fragmentView, getString(R.string.mod_order_observations), Snackbar.LENGTH_LONG)
+                                        .setAction(getString(R.string.undo_mod_order_observations)) {
                                             table.orders[orderIndex].observations = olderOrder
                                             ordersInTableFragment?.refreshOrdersList()
                                             ordersFragment?.refreshOrdersList()
@@ -340,13 +341,13 @@ class TableListActivity : AppCompatActivity(),
                 REQ_MENU_AND_ORDER -> {
                     val fragmentView = findViewById<View>(R.id.fragment_table_list)
                     Snackbar.make(fragmentView,
-                            "Se ha cancelado el pedido",
+                            getString(R.string.order_canceled),
                             Snackbar.LENGTH_LONG).show()
                 }
                 REQ_EDIT_ORDER -> {
                     val fragmentView = findViewById<View>(R.id.fragment_table_list)
                     Snackbar.make(fragmentView,
-                            "Se han cancelado las observaciones",
+                            getString(R.string.mod_order_observations_canceled),
                             Snackbar.LENGTH_LONG).show()
                 }
             }

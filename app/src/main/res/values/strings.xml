@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NigiriMoe</string>
+    <string name="app_name">Nigiri Moe</string>
 
     <string name="orders">Pedidos: %d</string>
 
@@ -30,4 +30,22 @@
     <string name="allergen_soybean">Soja</string>
     <string name="allergen_peanut">Cacahuetes</string>
     <string name="allergen_almond">Almendra</string>
+    <string name="add_order">Añadimos pedido nuevo</string>
+    <string name="undo_add_order">Deshacer añadir pedido</string>
+    <string name="mod_order_observations">Modificamos observaciones del pedido</string>
+    <string name="undo_mod_order_observations">Deshacer modificar observaciones</string>
+    <string name="order_canceled">Se ha cancelado el pedido</string>
+    <string name="mod_order_observations_canceled">Se han cancelado las observaciones</string>
+    <string name="cancel">Cancelar</string>
+    <string name="Oooops">Oooops!</string>
+    <string name="recover_orders">Estás a tiempo de recuperar los pedidos</string>
+    <string name="delete_orders">Borrar pedidos</string>
+    <string name="all_orders_will_be_deleted">Todos los pedidos de esta mesa serán eliminados</string>
+    <string name="ok">Aceptar</string>
+    <string name="cash_register">Caja registradora</string>
+    <string name="downloading_error">Error en la descarga</string>
+    <string name="unable_download_menu">No se puede descargar el menú</string>
+    <string name="retry">Reintentar</string>
+    <string name="exit">Salir</string>
+    <string name="to_pay">A cobrar %.2f</string>
 </resources>
